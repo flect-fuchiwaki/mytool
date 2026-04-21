@@ -4,6 +4,7 @@
   "use strict";
 
   // ── DOM 参照 ──────────────────────────────────
+  let signinScreen, signinBtn, signinError, appHeader, appBody;
   let loginBtn, logoutBtn, userNameEl;
   let fileListStatus, treeContainer;
   let previewFrame, previewPlaceholder, previewSpinner;
@@ -17,9 +18,14 @@
 
   // ── 起動 ──────────────────────────────────────
   async function boot() {
-    loginBtn          = document.getElementById("login-btn");
-    logoutBtn         = document.getElementById("logout-btn");
-    userNameEl        = document.getElementById("user-name");
+    signinScreen  = document.getElementById("signin-screen");
+    signinBtn     = document.getElementById("signin-btn");
+    signinError   = document.getElementById("signin-error");
+    appHeader     = document.getElementById("app-header");
+    appBody       = document.getElementById("app-body");
+    loginBtn      = document.getElementById("login-btn");
+    logoutBtn     = document.getElementById("logout-btn");
+    userNameEl    = document.getElementById("user-name");
     fileListStatus    = document.getElementById("file-list-status");
     treeContainer     = document.getElementById("tree-container");
     previewFrame      = document.getElementById("preview-frame");
@@ -29,7 +35,7 @@
     searchClearBtn         = document.getElementById("search-clear-btn");
     searchResultsContainer = document.getElementById("search-results-container");
 
-    loginBtn.addEventListener("click",  handleLogin);
+    signinBtn.addEventListener("click", handleLogin);
     logoutBtn.addEventListener("click", handleLogout);
     if (searchInput)    searchInput.addEventListener("input",  handleSearchInput);
     if (searchClearBtn) searchClearBtn.addEventListener("click", clearSearch);
@@ -52,16 +58,19 @@
 
   // ── 認証 ──────────────────────────────────────
   async function handleLogin() {
-    loginBtn.disabled = true;
-    setStatus("loading", "サインイン中...");
+    signinBtn.disabled    = true;
+    signinBtn.textContent = "サインイン中...";
+    signinError.style.display = "none";
     try {
       const account = await window.Auth.login();
       setUiState("authenticated", account);
       await loadTree();
     } catch (err) {
       console.error("ログイン失敗:", err);
-      setStatus("error", "サインイン失敗: " + err.message);
-      loginBtn.disabled = false;
+      signinError.textContent   = "サインインに失敗しました: " + err.message;
+      signinError.style.display = "block";
+      signinBtn.disabled    = false;
+      signinBtn.innerHTML   = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M11.5 2C6.25 2 2 6.25 2 11.5S6.25 21 11.5 21c2.91 0 5.52-1.25 7.35-3.24l-1.46-1.46A7.44 7.44 0 0 1 11.5 19 7.5 7.5 0 0 1 4 11.5 7.5 7.5 0 0 1 11.5 4c3.36 0 6.21 2.22 7.13 5.27H16v2h6V5h-2v2.46A9.46 9.46 0 0 0 11.5 2z" fill="currentColor"/></svg> Microsoft アカウントでサインイン`;
     }
   }
 
@@ -301,25 +310,27 @@
   function setUiState(state, account) {
     switch (state) {
       case "unauthenticated":
-        loginBtn.style.display  = "inline-block";
-        logoutBtn.style.display = "none";
-        userNameEl.textContent  = "";
-        searchInput.disabled    = true;
-        searchInput.value       = "";
-        searchClearBtn.style.display = "none";
+        signinScreen.style.display = "flex";
+        appHeader.style.display    = "none";
+        appBody.style.display      = "none";
+        signinBtn.disabled         = false;
+        if (searchInput) { searchInput.disabled = true; searchInput.value = ""; }
+        if (searchClearBtn) searchClearBtn.style.display = "none";
         showTreeView();
-        setStatus("", "サインインしてください");
         break;
       case "authenticated":
-        loginBtn.style.display  = "none";
-        logoutBtn.style.display = "inline-block";
-        userNameEl.textContent  = account?.name || account?.username || "";
+        signinScreen.style.display = "none";
+        appHeader.style.display    = "flex";
+        appBody.style.display      = "flex";
+        logoutBtn.style.display    = "inline-block";
+        userNameEl.textContent     = account?.name || account?.username || "";
         break;
       case "loading":
-        loginBtn.style.display  = "none";
-        logoutBtn.style.display = "none";
-        userNameEl.textContent  = "読み込み中...";
-        searchInput.disabled    = true;
+        signinScreen.style.display = "flex";
+        appHeader.style.display    = "none";
+        appBody.style.display      = "none";
+        signinBtn.disabled         = true;
+        if (searchInput) searchInput.disabled = true;
         break;
     }
   }
