@@ -8,8 +8,24 @@
 </head>
 <body>
 
-  <!-- ヘッダー -->
-  <header class="app-header">
+  <!-- サインイン画面（未認証時のみ表示） -->
+  <div id="signin-screen" class="signin-screen">
+    <div class="signin-card">
+      <img src="aplicon.png" alt="" class="signin-icon" aria-hidden="true" />
+      <h1 class="signin-title">商談提案ヒストリーナビ</h1>
+      <p class="signin-desc">SharePoint 上の提案資料をすばやく検索・閲覧できます</p>
+      <button id="signin-btn" class="btn-signin">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M11.5 2C6.25 2 2 6.25 2 11.5S6.25 21 11.5 21c2.91 0 5.52-1.25 7.35-3.24l-1.46-1.46A7.44 7.44 0 0 1 11.5 19 7.5 7.5 0 0 1 4 11.5 7.5 7.5 0 0 1 11.5 4c3.36 0 6.21 2.22 7.13 5.27H16v2h6V5h-2v2.46A9.46 9.46 0 0 0 11.5 2z" fill="currentColor"/>
+        </svg>
+        Microsoft アカウントでサインイン
+      </button>
+      <p id="signin-error" class="signin-error" style="display:none"></p>
+    </div>
+  </div>
+
+  <!-- ヘッダー（認証後のみ表示） -->
+  <header id="app-header" class="app-header" style="display:none">
     <div class="app-brand">
       <img src="aplicon.png" alt="" class="app-icon" aria-hidden="true" />
       <h1 class="app-title">商談提案ヒストリーナビ</h1>
@@ -21,8 +37,8 @@
     </div>
   </header>
 
-  <!-- メインレイアウト -->
-  <main class="app-body">
+  <!-- メインレイアウト（認証後のみ表示） -->
+  <main id="app-body" class="app-body" style="display:none">
 
     <!-- 左パネル: フォルダツリー -->
     <aside class="panel-left">
@@ -86,7 +102,7 @@
   </main>
 
   <!-- MSAL.js v3 CDN -->
-  <script src="https://alcdn.msauth.net/browser/3.28.1/js/msal-browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@3/lib/msal-browser.min.js"></script>
 
   <!-- アプリスクリプト（読み込み順序重要） -->
   <script src="js/config.js"></script>
