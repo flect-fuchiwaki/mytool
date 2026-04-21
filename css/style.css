@@ -1,0 +1,394 @@
+/* css/style.css */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  background: #f3f2f1;
+  color: #323130;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── ヘッダー ── */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 52px;
+  background: #0078d4;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+.app-brand { display: flex; align-items: center; gap: 10px; }
+.app-icon  { width: 32px; height: 32px; border-radius: 7px; flex-shrink: 0; }
+.app-title { font-size: 18px; font-weight: 600; letter-spacing: .01em; }
+.header-auth { display: flex; align-items: center; gap: 12px; }
+.user-name { font-size: 13px; opacity: .9; }
+.user-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.25);
+  border: 1px solid rgba(255,255,255,.5);
+  letter-spacing: .03em;
+}
+
+/* ── ボタン ── */
+.btn {
+  padding: 6px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background .15s, opacity .15s;
+  white-space: nowrap;
+}
+.btn-primary            { background: #fff; color: #0078d4; }
+.btn-primary:hover      { background: #e8f2fb; }
+.btn-secondary          { background: rgba(255,255,255,.2); color: #fff; border: 1px solid rgba(255,255,255,.5); }
+.btn-secondary:hover    { background: rgba(255,255,255,.35); }
+.btn:disabled           { opacity: .5; cursor: not-allowed; }
+
+/* ── メインレイアウト ── */
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── 左パネル ── */
+.panel-left {
+  width: 30%;
+  min-width: 240px;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-right: 1px solid #edebe9;
+  overflow: hidden;
+}
+
+/* 起点フォルダ名ヘッダー */
+.panel-folder-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #f3f2f1;
+  border-bottom: 1px solid #edebe9;
+  flex-shrink: 0;
+}
+.panel-folder-icon { font-size: 16px; }
+.panel-folder-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #323130;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ステータス表示 */
+.status {
+  padding: 5px 14px;
+  font-size: 12px;
+  min-height: 26px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #edebe9;
+  display: flex;
+  align-items: center;
+  color: #605e5c;
+}
+.status-loading { color: #0078d4; }
+.status-error   { color: #a4262c; }
+.status-empty   { color: #605e5c; }
+.status-done    { color: #107c10; }
+
+/* ── ツリーコンテナ ── */
+.tree-container {
+  overflow-y: auto;
+  flex: 1;
+  padding: 4px 0;
+  user-select: none;
+}
+
+/* ── ツリー行 ── */
+.tree-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 1px 4px;
+  transition: background .1s;
+  outline: none;
+}
+.tree-row:hover       { background: #f3f2f1; }
+.tree-row:focus       { box-shadow: 0 0 0 2px #0078d4 inset; }
+
+/* フォルダ行 */
+.tree-row--folder { color: #323130; }
+
+/* PPTX ファイル行 */
+.tree-row--file   { color: #323130; }
+.tree-row--file:hover { background: #e8f2fb; }
+
+/* 選択中の PPTX */
+.tree-row--active {
+  background: #deecf9 !important;
+  font-weight: 600;
+  border-left: 3px solid #0078d4;
+}
+
+/* 矢印 */
+.tree-arrow {
+  width: 16px;
+  font-size: 9px;
+  color: #605e5c;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* アイコン */
+.tree-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+/* ラベル */
+.tree-label {
+  flex: 1;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 8px;
+}
+
+/* フォルダの子コンテナ */
+.tree-children { /* display は JS で制御 */ }
+
+/* 空フォルダ表示 */
+.tree-empty {
+  font-size: 12px;
+  color: #a19f9d;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-right: 8px;
+  font-style: italic;
+}
+
+/* フォルダ展開中のインラインスピナー */
+.tree-inline-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #edebe9;
+  border-top-color: #0078d4;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  flex-shrink: 0;
+  margin-right: 6px;
+}
+
+/* ── 右パネル ── */
+.panel-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f2f1;
+  position: relative;
+  overflow: hidden;
+}
+
+.preview-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  color: #a19f9d;
+  font-size: 15px;
+  padding: 40px;
+}
+.placeholder-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 24px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+}
+
+.preview-spinner {
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #605e5c;
+  font-size: 14px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #edebe9;
+  border-top-color: #0078d4;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.preview-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* ── 検索バー ── */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #fff;
+  border-bottom: 1px solid #edebe9;
+  flex-shrink: 0;
+}
+.search-icon {
+  font-size: 14px;
+  color: #605e5c;
+  flex-shrink: 0;
+}
+.search-input {
+  flex: 1;
+  border: 1px solid #c8c6c4;
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #323130;
+  background: #fff;
+  outline: none;
+  transition: border-color .15s;
+  min-width: 0;
+}
+.search-input:focus {
+  border-color: #0078d4;
+  box-shadow: 0 0 0 1px #0078d4;
+}
+.search-input:disabled {
+  background: #f3f2f1;
+  color: #a19f9d;
+  cursor: not-allowed;
+}
+.search-input::-webkit-search-cancel-button { display: none; }
+.search-clear-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #605e5c;
+  padding: 2px 4px;
+  border-radius: 3px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: background .1s, color .1s;
+}
+.search-clear-btn:hover {
+  background: #f3f2f1;
+  color: #323130;
+}
+
+/* ── 検索結果コンテナ ── */
+.search-results-container {
+  overflow-y: auto;
+  flex: 1;
+  padding: 4px 0;
+  user-select: none;
+}
+.search-result-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 1px 4px;
+  transition: background .1s;
+  outline: none;
+}
+.search-result-row:hover   { background: #e8f2fb; }
+.search-result-row:focus   { box-shadow: 0 0 0 2px #0078d4 inset; }
+.search-result-row--active {
+  background: #deecf9 !important;
+  border-left: 3px solid #0078d4;
+}
+.search-result-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.search-result-text {
+  flex: 1;
+  min-width: 0;
+}
+.search-result-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #323130;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.search-result-path {
+  font-size: 11px;
+  color: #605e5c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+.search-results-empty,
+.search-results-error,
+.search-results-loading {
+  padding: 16px 14px;
+  font-size: 12px;
+  font-style: italic;
+  color: #a19f9d;
+}
+.search-results-error   { color: #a4262c; }
+.search-results-loading { color: #0078d4; }
+.search-spinner-inline {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #edebe9;
+  border-top-color: #0078d4;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+/* ── レスポンシブ ── */
+@media (max-width: 640px) {
+  .app-body { flex-direction: column; }
+  .panel-left {
+    width: 100%;
+    max-width: 100%;
+    height: 40%;
+    border-right: none;
+    border-bottom: 1px solid #edebe9;
+  }
+  .panel-right { height: 60%; }
+}

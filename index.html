@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>商談提案ヒストリーナビ</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="app-header">
+    <div class="app-brand">
+      <img src="aplicon.png" alt="" class="app-icon" aria-hidden="true" />
+      <h1 class="app-title">商談提案ヒストリーナビ</h1>
+    </div>
+    <div class="header-auth">
+      <span id="user-name" class="user-name"></span>
+      <button id="login-btn"  class="btn btn-primary">サインイン</button>
+      <button id="logout-btn" class="btn btn-secondary" style="display:none">サインアウト</button>
+    </div>
+  </header>
+
+  <!-- メインレイアウト -->
+  <main class="app-body">
+
+    <!-- 左パネル: フォルダツリー -->
+    <aside class="panel-left">
+
+      <!-- 起点フォルダ名ヘッダー -->
+      <div class="panel-folder-header">
+        <span class="panel-folder-icon" aria-hidden="true">📁</span>
+        <span class="panel-folder-name">02_個別案件</span>
+      </div>
+
+      <!-- 検索バー -->
+      <div class="search-bar">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input
+          type="search"
+          id="search-input"
+          class="search-input"
+          placeholder="ファイル名・内容を検索..."
+          aria-label="PPTX ファイルを検索"
+          autocomplete="off"
+          disabled
+        />
+        <button id="search-clear-btn" class="search-clear-btn" aria-label="検索をクリア" style="display:none">✕</button>
+      </div>
+
+      <!-- 件数・エラー等のステータス -->
+      <div id="file-list-status" class="status" role="status" aria-live="polite"></div>
+
+      <!-- ツリー本体 -->
+      <div id="tree-container" class="tree-container" role="tree" aria-label="フォルダツリー"></div>
+
+      <!-- 検索結果（検索中のみ表示、ツリーと排他） -->
+      <div id="search-results-container" class="search-results-container" role="list" aria-label="検索結果" style="display:none"></div>
+
+    </aside>
+
+    <!-- 右パネル: プレビュー -->
+    <section class="panel-right">
+
+      <div id="preview-placeholder" class="preview-placeholder" aria-live="polite">
+        <img src="aplicon.png" alt="" class="placeholder-icon" aria-hidden="true" />
+        <p>左のツリーから PPTX ファイルを選択するとここにプレビューが表示されます</p>
+      </div>
+
+      <div id="preview-spinner" class="preview-spinner" style="display:none" aria-label="プレビュー読み込み中">
+        <div class="spinner"></div>
+        <p>プレビューを読み込み中...</p>
+      </div>
+
+      <iframe
+        id="preview-frame"
+        class="preview-iframe"
+        style="display:none"
+        title="PowerPoint プレビュー"
+        allowfullscreen
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
+      ></iframe>
+
+    </section>
+
+  </main>
+
+  <!-- MSAL.js v3 CDN -->
+  <script src="https://alcdn.msauth.net/browser/3.28.1/js/msal-browser.min.js"></script>
+
+  <!-- アプリスクリプト（読み込み順序重要） -->
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/graph.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
