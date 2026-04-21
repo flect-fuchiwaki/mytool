@@ -12,6 +12,70 @@ body {
   overflow: hidden;
 }
 
+/* ── サインイン画面 ── */
+.signin-screen {
+  position: fixed;
+  inset: 0;
+  background: #f3f2f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.signin-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.12);
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 360px;
+  max-width: 90vw;
+  text-align: center;
+}
+.signin-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+.signin-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #323130;
+}
+.signin-desc {
+  font-size: 13px;
+  color: #605e5c;
+  line-height: 1.5;
+}
+.btn-signin {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: #0078d4;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background .15s;
+  width: 100%;
+  justify-content: center;
+}
+.btn-signin:hover    { background: #106ebe; }
+.btn-signin:disabled { opacity: .6; cursor: not-allowed; }
+.signin-error {
+  font-size: 12px;
+  color: #a4262c;
+  margin-top: 4px;
+}
+
 /* ── ヘッダー ── */
 .app-header {
   display: flex;
