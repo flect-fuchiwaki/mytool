@@ -29,13 +29,18 @@
   async function loadRootFolder() {
     const { searchSite, searchFolderPath } = window.APP_CONFIG;
 
+    // Step1: サイトパスからサイトIDを取得（チェーン記法を避けるため2ステップに分割）
+    const siteData = await graphFetch(`${BASE}/sites/${searchSite}`);
+    const siteId = siteData.id;
+
     // フォルダパスの各セグメントを個別にエンコード
     const encodedPath = searchFolderPath
       .split("/")
       .map(encodeURIComponent)
       .join("/");
 
-    const url = `${BASE}/sites/${searchSite}:/drive/root:/${encodedPath}`;
+    // Step2: サイトIDを使ってフォルダメタデータを取得
+    const url = `${BASE}/sites/${siteId}/drive/root:/${encodedPath}`;
     const data = await graphFetch(url);
 
     return {
